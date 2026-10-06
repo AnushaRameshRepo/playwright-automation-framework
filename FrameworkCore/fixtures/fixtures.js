@@ -13,7 +13,7 @@ exports.test = base.test.extend(
     {
         clientPageEcommerce: async ({ page }, use) => {
                
-            await page.goto('/clients');
+            await page.goto('/client');
             await use(page);
         },
         dashboardPage: async ({ clientPageEcommerce }, use) => {  
