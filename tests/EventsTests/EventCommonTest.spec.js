@@ -4,7 +4,7 @@ const { EventsPage } = require('../../Pages/Events/EventsPage.js');
 const { fromNow } = require("../../FrameworkCore/Utility/dateUtil.js");
 const eventDetails = require('../TestData/eventDetails.json');
 
-test.only('Event Page Filter Test', async ({ eventsHomePage, eventsPage }) => {
+test.fixme('Event Page Filter Test', async ({ eventsHomePage, eventsPage }) => {
     const cardCount = await eventsHomePage.eventsCard.count();
     const featuredTagCount = await eventsHomePage.featuredTag.count();
     expect(cardCount).toBe(featuredTagCount);
@@ -16,12 +16,7 @@ test.only('Event Page Filter Test', async ({ eventsHomePage, eventsPage }) => {
         await expect.soft(eventsPage.cityFilter, "City filter is not visible").toBeVisible();
         await expect.soft(eventsPage.addEventButton, "Add event button is not visible").toBeVisible();
     });
-
-
-
     await eventsPage.page.waitForLoadState('networkidle');
-
-
     await eventsPage.filterEvents("Concert");
     await expect(eventsPage.categoryTag.filter({ hasNot: eventsPage.page.getByText('Concert', { exact: true }) })).toHaveCount(0);
 

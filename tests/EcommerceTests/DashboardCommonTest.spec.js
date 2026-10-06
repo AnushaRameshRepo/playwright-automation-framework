@@ -1,4 +1,4 @@
-const {test,expect}=require("../../fixtures/fixtures.js");
+const {test,expect}=require("../../FrameworkCore/fixtures/fixtures.js");
 const products=require("../TestData/product.json");
 
 
