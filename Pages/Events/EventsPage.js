@@ -10,29 +10,14 @@ class EventsPage {
         this.eventCardDetails = page.locator("div[class*='flex'] span[class='line-clamp-1']");
     }
     async filterEvents(categoryValue = '', cityValue = '') {
-
+      
         if(await this.clearFilterButton.isVisible())
         {
             await this.clearFilterButton.click();
+            await this.clearFilterButton.waitFor({ state: 'detached' });
         }
         await this.categoryFilter.selectOption(categoryValue);
         await this.cityFilter.selectOption(cityValue);
-        
-        const currentURL=this.page.url();
-        let retry=0;
-
-        while(retry<3){
-        if (!currentURL.includes('category') && !currentURL.includes('city')) {
-            await this.categoryFilter.selectOption(categoryValue);
-            await this.cityFilter.selectOption(cityValue);
-            await this.categoryFilter.selectOption(categoryValue);
-            await this.cityFilter.selectOption(cityValue);
-        }
-        else{
-            break;
-        }
-        retry=retry+1;
-    }
     }
 
     async getEventCardDetails() {
