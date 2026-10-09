@@ -1,4 +1,4 @@
-const {Toasts}=require('./Toasts');
+const {Toasts}=require('../Components/Toasts');
 class AdminPage{
     constructor(page){
         this.page=page;
