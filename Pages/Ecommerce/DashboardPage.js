@@ -9,12 +9,10 @@ class DashboardPage{
         this.productAddedAlert=page.getByRole("alert");
     }
     async addProductToCart(productName){
-        
         const product= this.productList.filter({hasText:productName});
         await product.getByRole("button",{name:' Add To Cart'}).click();
     }
     async viewProduct(productName){
-        await this.page.waitForLoadState('networkidle');
         const product=this.productList.filter({hasText:productName});
         await product.getByRole("button",{name:'View'}).click();
     }

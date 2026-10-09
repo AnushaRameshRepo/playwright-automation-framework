@@ -6,8 +6,6 @@ const {EventsPage}=require('../../Pages/Events/EventsPage');
 const {HomePage}=require('../../Pages/Events/HomePage');
 const {AdminPage}=require('../../Pages/Events/AdminPage');
 
-const dotenv=require('dotenv'); 
-dotenv.config();
 
 exports.test = base.test.extend(
     {

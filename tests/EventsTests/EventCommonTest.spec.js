@@ -18,8 +18,7 @@ test('Event Page Filter Test', async ({ eventsHomePage, eventsPage }) => {
     });
     
     await eventsPage.filterEvents("Concert");
-    await expect(eventsPage.categoryTag.filter({ hasNot: eventsPage.page.getByText('Concert', { exact: true }) })).toHaveCount(0);
-
+    await expect(eventsPage.cardsWithoutCategory('Concert')).toHaveCount(0);
     await eventsPage.clearFilterButton.click();
     await eventsPage.filterEvents("", "Delhi");
     await eventsPage.page.waitForLoadState('networkidle');
@@ -30,21 +29,21 @@ test('Event Page Filter Test', async ({ eventsHomePage, eventsPage }) => {
 test('Event test', async ({ adminPage, eventsPage }) => {
     await eventsPage.addEventButton.click();
     for (const dateCase of eventDetails.dateCases) {
-        await test.step('Date ${dateCases.name}', async () => {
-            await adminPage.fillCreateEventForm(eventDetails.eventDetails.title, eventDetails.eventDetails.category, eventDetails.eventDetails.city, eventDetails.eventDetails.location, eventDetails.eventDetails.price, fromNow(dateCase.fromNow), eventDetails.eventDetails.seats);
+        await test.step('Date ${dateCase.name}', async () => {
+            await adminPage.fillCreateEventForm(eventDetails.eventDetails.title, eventDetails.eventDetails.category, eventDetails.eventDetails.city, eventDetails.eventDetails.venue, eventDetails.eventDetails.price, fromNow(dateCase.fromNow), eventDetails.eventDetails.seats);
 
             await adminPage.addEventButton.click();
             if (dateCase.expected === 'success') {
-                expect(await adminPage.successMessage.textContent()).toContain("Event created!");
-                adminPage.page.reload();
+                await expect(adminPage.toast.withText("Event Created!")).toBeVisible();
+                await adminPage.page.reload();
                 const row = adminPage.listOfEvents.filter({ hasText: eventDetails.eventDetails.title })
                 await expect(row).toBeVisible();
                 await row.locator(adminPage.deleteButton).click();
                 await adminPage.confirmDeleteButton.click();
-                expect(await adminPage.successMessage.textContent()).toContain("Event deleted");
+                await expect(adminPage.toast.withText("Event deleted")).toBeVisible();
             }
             else {
-                expect(await adminPage.dateTimeErrorMessage).toHaveText("Must be a future date");
+                await expect(adminPage.dateTimeErrorMessage).toHaveText("Must be a future date");
             }
         })
     }
