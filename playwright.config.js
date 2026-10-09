@@ -1,6 +1,6 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test';
-
+const{ defineConfig}=require('@playwright/test');
+const env=require('./environments');
 
 
 /**
@@ -8,27 +8,28 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
-  timeout:90000,
-  expect:{
-    timeout:50000,
-  },
-  retries:2,
+  fullyParallel:true,
+  forbidOnly:!!process.env.CI,
+  
+  retries:process.env.CI ? 2:0,
+  workers:process.env.CI?2:undefined,
   reporter: 'html',
   use: {
     browserName:'chromium',
     headless:!!process.env.CI,
     screenshot:'only-on-failure',
+    trace:'on-first-retry',
+    video:'retain-on-failure',
   },
   projects:[
     {name:'setup', testMatch:/.*\.setup\.js/},
-
     {
       name:'ecommerce',
       testMatch:/EcommerceTests\/.*\.spec\.js/,
       dependencies:['setup'],
       use:
       {
-        baseURL:'https://rahulshettyacademy.com/',
+        baseURL:env.ecommerce.baseURL,
         storageState:'.auth/ecommerce.json',
       },
     },
@@ -38,7 +39,7 @@ export default defineConfig({
       dependencies:['setup'],
       use:
       {
-        baseURL:'https://eventhub.rahulshettyacademy.com/events',
+        baseURL:env.events.baseURL,
         storageState:'.auth/events.json',
       },
     },

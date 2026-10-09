@@ -5,20 +5,20 @@ class LoginPage{
         this.page=page;
         this.userEmailTextbox=page.locator("#userEmail");
         this.userPasswordTextbox=page.locator("#userPassword");
-        this.sighInButton=page.locator("input[value='Login']");
+        this.signInButton=page.locator("input[value='Login']");
         this.eventEmailTextbox=page.locator("#email");
         this.eventPasswordTextbox=page.locator("#password");
         this.eventLoginButton=page.getByRole("button",{name:"Sign In"});
     }
     async loginEcommerce(username,password){
-        await this.page.goto("https://rahulshettyacademy.com/client/");
+        await this.page.goto('/client');
         await this.userEmailTextbox.fill(username);
         await this.userPasswordTextbox.fill(password);
-        await this.sighInButton.click();
+        await this.signInButton.click();
         await this.page.waitForLoadState("networkidle");
     }
     async loginEvent(username,password){
-        await this.page.goto("https://eventhub.rahulshettyacademy.com/events");
+        await this.page.goto('/');
         await this.eventEmailTextbox.fill(username);
         await this.eventPasswordTextbox.fill(password);
         await this.eventLoginButton.click();

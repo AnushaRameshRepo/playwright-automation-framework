@@ -5,8 +5,7 @@ const products=require("../TestData/product.json");
 test('Product View test' , async({clientPageEcommerce, dashboardPage, productPage})=>
 {
     await expect(clientPageEcommerce).toHaveTitle("Let's Shop");
-    await dashboardPage.viewProduct(products.adidas.name);  
-    await productPage.productName.waitFor();
+    await dashboardPage.viewProduct(products.adidas.name);
     await expect(productPage.productName).toHaveText(products.adidas.name);
     await expect(productPage.productPrice).toContainText(products.adidas.price);
 });

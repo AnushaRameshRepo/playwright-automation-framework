@@ -5,9 +5,13 @@ class EventsPage {
         this.categoryFilter = page.locator("select:has-text('All Categories')");
         this.cityFilter = page.locator("select:has(option[value='Pune'])");
         this.addEventButton = page.locator("a[href='/admin/events']").first();
+        this.eventCard=page.locator("article[id='event-card']");
         this.categoryTag = page.locator("article[id='event-card'] span[class*='text-amber']");
         this.clearFilterButton = page.locator("button:has-text('Clear filters')");
         this.eventCardDetails = page.locator("div[class*='flex'] span[class='line-clamp-1']");
+    }
+    cardsWithoutCategory(category){
+        return this.eventCard.filter({hasNot:this.page.getByText(category,{exact:true})});
     }
     async filterEvents(categoryValue = '', cityValue = '') {
       
